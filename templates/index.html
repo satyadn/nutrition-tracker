@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Tracker</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+<!-- TOM SEARCH/SEARCH DROPDOWN -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Weekly Nutrition Tracker</h1>
+
+        <div class="toolbar">
+
+            <button onclick="window.location.href='/?week_offset={{ week_offset - 1 }}'">
+                ◀ Previous Week
+            </button>
+
+            <select id="week-selector">
+
+                {% for i in range(1, 54) %}
+
+                <option
+                    value="{{ i }}"
+                    {% if i == current_week %}selected{% endif %}
+                >
+                    Week {{ i }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <button onclick="window.location.href='/?week_offset={{ week_offset + 1 }}'">
+                Next Week ▶
+            </button>
+
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+
+                        {% for hour in [
+                        '7AM','8AM','9AM','10AM','11AM',
+                        '12PM','1PM','2PM','3PM','4PM',
+                        '5PM','6PM','7PM','8PM','9PM',
+                        '10PM','11PM','12AM','1AM'
+                        ] %}
+                        <th>{{ hour }}</th>
+                        {% endfor %}
+
+                        <th>Calories</th>
+                        <th>Protein</th>
+                        <th>Carbs</th>
+                        <th>Fat</th>
+                        <th>Fiber</th>
+                        <th>Sugar</th>
+                        <th>Sodium</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for day in week_dates %}
+                    <tr>
+
+                        <td>{{ day.display_date }}</td>
+                        <td>{{ day.day }}</td>
+
+                        {% for slot in time_slots %}
+                        <td
+                            class="food-cell"
+                            data-date="{{ day.date }}"
+                            data-slot="{{ slot }}"
+                        >
+                            +
+                        </td>
+                        {% endfor %}
+
+                        <td>
+                            {{ daily_totals.get(day.date, {}).get("calories", 0) }}
+                        </td>
+
+                        <td>
+                            {{ daily_totals.get(day.date, {}).get("protein", 0) }}
+                        </td>
+
+                        <td>
+                            {{ daily_totals.get(day.date, {}).get("carbs", 0) }}
+                        </td>
+
+                        <td>
+                            {{ daily_totals.get(day.date, {}).get("fat", 0) }}
+                        </td>
+
+                        <td>
+                            {{ daily_totals.get(day.date, {}).get("fiber", 0) }}
+                        </td>
+
+                        <td>
+                            {{ daily_totals.get(day.date, {}).get("sugar", 0) }}
+                        </td>
+
+                        <td>
+                            {{ daily_totals.get(day.date, {}).get("sodium", 0) }}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+    <div id="food-modal" class="modal">
+
+        <div class="modal-content">
+
+            <h2 id="modal-title">Food Slot</h2>
+
+            <div id="food-list">
+
+            </div>
+
+            <button id="add-item-btn">Add Item</button>
+
+            <button id="add-custom-food-btn">Custom Entry</button>
+
+            <button id="add-custom-item-btn">Custom Item</button>
+
+            <button id="edit-item-btn">Edit Item</button>
+
+            
+
+            <div id="food-form" style="display:none;">
+
+                
+
+                <label>Food</label>
+
+                <select id="food-name">
+
+                    <option value="" selected>
+
+Select Food
+
+                    </option>
+
+                    {% for food in app_foods %}
+
+                    <option value="{{ food[0] }}">
+
+                        {{ food[1] }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <label>Quantity</label>
+                <input type="number" id="food-quantity">
+
+                <label>Unit</label>
+                <select id="food-unit">
+                    <option>g</option>
+                    <option>ml</option>
+                    <option>count</option>
+                </select>
+
+                <button id="save-food">Save Item</button>
+                <button id="delete-food-master">Delete Food</button>
+
+            </div>
+
+
+            <div id="custom-food-form" style="display:none;">
+
+                <input
+                    type="text"
+                    id="custom-name"
+                    placeholder="Food Name"
+                >
+
+                <input
+                    type="number"
+                    id="custom-calories"
+                    placeholder="Calories"
+                >
+
+                <input
+                    type="number"
+                    id="custom-protein"
+                    placeholder="Protein"
+                >
+
+                <input
+                    type="number"
+                    id="custom-carbs"
+                    placeholder="Carbs"
+                >
+
+                <input
+                    type="number"
+                    id="custom-fat"
+                    placeholder="Fat"
+                >
+
+                <input
+                    type="number"
+                    id="custom-fiber"
+                    placeholder="Fiber"
+                >
+
+                <input
+                    type="number"
+                    id="custom-sugar"
+                    placeholder="Sugar"
+                >
+
+                <input
+                    type="number"
+                    id="custom-sodium"
+                    placeholder="Sodium"
+                >
+
+                <input
+                    type="number"
+                    id="custom-serving-weight"
+                    placeholder="Serving Weight (g)"
+                >
+
+                <button id="save-custom-food">
+                    Save Custom Food
+                </button>
+
+            </div>
+
+
+            <div id="custom-item-form" style="display:none;">
+
+                <input
+                    type="text"
+                    id="custom-item-name"
+                    placeholder="Item Name"
+                >
+
+                <div id="recipe-items"></div>
+
+                <button id="add-recipe-item">
+                    Add Ingredient
+                </button>
+
+                <button id="save-custom-item">
+                    Save Custom Item
+                </button>
+
+            </div>
+
+
+            <div id="edit-item-form" style="display:none;">
+
+                <select id="edit-food-select">
+
+                    <option value="" selected>
+
+Select Food
+
+                    </option>
+
+                    {% for food in app_foods %}
+
+                    <option value="{{ food[0] }}">
+
+                        {{ food[1] }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <input id="edit-food-name" placeholder="Food Name">
+
+                <input id="edit-calories" placeholder="Calories">
+
+                <input id="edit-protein" placeholder="Protein">
+
+                <input id="edit-carbs" placeholder="Carbs">
+
+                <input id="edit-fat" placeholder="Fat">
+
+                <input id="edit-fiber" placeholder="Fiber">
+
+                <input id="edit-sugar" placeholder="Sugar">
+
+                <input id="edit-sodium" placeholder="Sodium">
+
+                <input id="edit-serving-weight" placeholder="Serving Weight">
+
+                <button id="load-food">
+                    Load Food
+                </button>
+
+                <button id="save-edit-food">
+                    Save Changes
+                </button>
+
+            </div>
+
+
+
+
+            <button id="close-modal">Close</button>
+
+        </div>
+
+    </div>
+    <script>
+
+        const SAVED_FOODS = {{ foods|tojson }};
+
+        const APP_FOODS = {{ app_foods|tojson }};
+
+    </script>
+    <script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        // new TomSelect("#food-name", {
+
+        //     create: false,
+
+        //     sortField: {
+        //         field: "text",
+        //         direction: "asc"
+        //     }
+
+        // });
+
+        const selector =
+            document.getElementById("week-selector");
+
+        selector.addEventListener("change", () => {
+
+            const selectedWeek =
+                parseInt(selector.value);
+
+            const currentWeek =
+                {{ current_week }};
+
+            const currentOffset =
+                {{ current_offset }};
+
+            const offset =
+                currentOffset +
+                (selectedWeek - currentWeek);
+
+            window.location.href =
+                "/?week_offset=" + offset;
+
+        });
+
+    });
+
+    </script>
+
+    <!-- TOM SEARCH/SEASRCH DROPDOWN -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- <a href="/export-db" id="export-db-btn">
+        <button>Export Database.db</button>
+    </a> -->
+
+    <div id="export-buttons">
+
+        <a href="/export-foods-csv">
+            <button>Export Foods CSV</button>
+        </a>
+
+        <a href="/export-db">
+            <button>Export Database</button>
+        </a>
+
+    </div>
+
+</body>
+
+</html>

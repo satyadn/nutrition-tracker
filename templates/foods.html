@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Food Database</title>
+</head>
+
+<body>
+
+    <h1>Food Database</h1>
+
+    <h2>Add Food</h2>
+
+    <form method="POST" action="/add-food-master">
+
+      <input
+         type="text"
+         name="food_name"
+         placeholder="Food Name"
+         required
+      >
+
+      <input
+         type="number"
+         step="0.01"
+         name="calories"
+         placeholder="Calories"
+         required
+      >
+
+      <input
+         type="number"
+         step="0.01"
+         name="protein"
+         placeholder="Protein"
+         required
+      >
+
+      <input
+         type="number"
+         step="0.01"
+         name="carbs"
+         placeholder="Carbs"
+         required
+      >
+
+      <input
+         type="number"
+         step="0.01"
+         name="fat"
+         placeholder="Fat"
+         required
+      >
+
+      <input
+         type="number"
+         step="0.01"
+         name="fiber"
+         placeholder="Fiber"
+         required
+      >
+
+      <input
+         type="number"
+         step="0.01"
+         name="sugar"
+         placeholder="Sugar"
+         required
+      >
+
+      <input
+         type="number"
+         step="0.01"
+         name="sodium"
+         placeholder="Sodium"
+         required
+      >
+
+      <button type="submit">
+         Add Food
+      </button>
+
+    </form>
+
+    <hr>
+
+
+    <table border="1">
+
+        <tr>
+            <th>Food</th>
+            <th>Calories</th>
+            <th>Protein</th>
+            <th>Carbs</th>
+            <th>Fat</th>
+            <th>Fiber</th>
+            <th>Sugar</th>
+            <th>Sodium</th>
+        </tr>
+
+        {% for food in foods %}
+
+        <tr>
+
+            <td>{{ food[1] }}</td>
+            <td>{{ food[2] }}</td>
+            <td>{{ food[3] }}</td>
+            <td>{{ food[4] }}</td>
+            <td>{{ food[5] }}</td>
+            <td>{{ food[6] }}</td>
+            <td>{{ food[7] }}</td>
+            <td>{{ food[8] }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>

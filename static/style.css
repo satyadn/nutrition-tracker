@@ -1,0 +1,427 @@
+body {
+    margin: 0;
+    background: #1e1e1e;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+button,
+select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: #2b2b2b;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    min-width: 2200px;
+}
+
+th,
+td {
+    border: 1px solid #444;
+    padding: 12px;
+    text-align: center;
+    min-width: 90px;
+}
+
+th:first-child,
+td:first-child {
+    min-width: 90px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    min-width: 20px;
+}
+
+th {
+    background: #333;
+}
+
+.food-cell {
+    cursor: pointer;
+    color: #156dc4;
+    font-weight: bold;
+}
+
+.food-cell:hover {
+    background: #3a3a3a;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #2b2b2b;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    width: 500px;
+
+    max-width: 90vw;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-content input,
+.modal-content select {
+    padding: 10px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#food-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#food-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+#add-item-btn,
+#close-modal,
+#save-food {
+    width: 100%;
+}
+
+#food-name,
+#food-quantity,
+#food-unit {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.week-display {
+    padding: 10px 20px;
+    background: #333;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+
+#custom-food-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#custom-food-form input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#save-custom-food {
+    width: 100%;
+}
+
+#recipe-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    width: 100%;
+}
+
+#recipe-items div {
+    display: flex;
+    gap: 5px;
+
+    width: 100%;
+}
+
+
+
+.recipe-qty {
+    width: 80px;
+}
+
+.recipe-unit {
+    width: 80px;
+}
+
+.recipe-food {
+    flex: 1;
+    min-width: 250px;
+    width: 100%;
+}
+
+.recipe-food,
+.recipe-qty,
+.recipe-unit {
+    box-sizing: border-box;
+}
+
+#custom-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+
+#food-quantity {
+    height: 30px;
+}
+#food-unit {
+    height: 30px;
+}
+#food-name {
+    height: 30px;
+}
+
+th:nth-last-child(-n+7),
+td:nth-last-child(-n+7) {
+    min-width: 40px;
+}
+
+
+.table-container {
+    overflow-x: auto;
+    position: relative;
+}
+
+
+th:first-child,
+td:first-child {
+    position: sticky;
+    left: -15px;
+    z-index: 3;
+    background: #2b2b2b;
+}
+
+
+th:nth-child(2),
+td:nth-child(2) {
+    position: sticky;
+    left: 90px;
+    z-index: 3;
+    background: #2b2b2b;
+}
+
+
+/* Sodium */
+th:last-child,
+td:last-child {
+    position: sticky;
+    right: -13px;
+    background: #2b2b2b;
+    z-index: 10;
+}
+
+/* Sugar */
+th:nth-last-child(2),
+td:nth-last-child(2) {
+    position: sticky;
+    right: 61.5px;
+    background: #2b2b2b;
+    z-index: 10;
+}
+
+/* Fiber */
+th:nth-last-child(3),
+td:nth-last-child(3) {
+    position: sticky;
+    right: 118px;
+    background: #2b2b2b;
+    z-index: 10;
+}
+
+/* Fat */
+th:nth-last-child(4),
+td:nth-last-child(4) {
+    position: sticky;
+    right: 170px;
+    background: #2b2b2b;
+    z-index: 10;
+}
+
+/* Carbs */
+th:nth-last-child(5),
+td:nth-last-child(5) {
+    position: sticky;
+    right: 222px;
+    background: #2b2b2b;
+    z-index: 10;
+}
+
+/* Protein */
+th:nth-last-child(6),
+td:nth-last-child(6) {
+    position: sticky;
+    right: 279px;
+    background: #2b2b2b;
+    z-index: 10;
+}
+
+/* Calories */
+th:nth-last-child(7),
+td:nth-last-child(7) {
+    position: sticky;
+    right: 345px;
+    background: #2b2b2b;
+    z-index: 10;
+}
+
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* 
+th:first-child,
+td:first-child,
+th:nth-child(2),
+td:nth-child(2),
+th:nth-last-child(-n+7),
+td:nth-last-child(-n+7) {
+    z-index: 100;
+} */
+
+
+/* th:first-child,
+td:first-child,
+th:nth-child(2),
+td:nth-child(2),
+th:nth-last-child(-n+7),
+td:nth-last-child(-n+7) {
+    transform: translateZ(0);
+} */
+
+
+/* will-change: transform; */
+
+
+/* .ts-control {
+    background: #2b2b2b;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+.ts-dropdown {
+    background: #2b2b2b;
+    color: white;
+    border: 1px solid #444;
+}
+
+.ts-dropdown .active {
+    background: #3a3a3a;
+} */
+
+
+#edit-item-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+#export-db-btn {
+    position: fixed;
+
+    bottom: 20px;
+    right: 20px;
+
+    z-index: 999;
+}
+
+#export-db-btn button {
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#export-db-btn button {
+    background: #4ea1ff;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#export-buttons {
+    position: fixed;
+
+    bottom: 20px;
+    right: 40px;   /* increase this to move further left/right */
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    z-index: 999;
+}
+
+#export-buttons button {
+    width: 180px;
+}
+
+.ts-wrapper {
+    width: 100%;
+}
+
+.ts-control {
+    min-height: 40px;
+}
+
+.ts-dropdown {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
